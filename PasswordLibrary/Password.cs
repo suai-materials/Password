@@ -2,10 +2,15 @@
 
 public class Password
 {
-    public string password = "";
+    protected string _password;
+
+    public Password(string password)
+    {
+        _password = password;
+    }
 
     public bool CheckPassword(string password)
     {
-        return password == this.password;
+        return password == _password;
     }
 }

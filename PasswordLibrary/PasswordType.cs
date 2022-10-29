@@ -4,7 +4,7 @@ public enum PasswordType
 {
     Bad,
     Weak,
-    Medium, 
+    Medium,
     Good,
     Strong
 }
