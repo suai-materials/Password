@@ -16,12 +16,15 @@
 
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
             <TextBlock>Пароль 1:</TextBlock>
-            <PasswordBox Password="{Binding Password1}" Margin="10, 0" Width="100" />
+            <TextBox Text="{Binding Password1}" Margin="10, 0" Width="100" />
             <TextBlock Margin="10, 0">Пароль 2:</TextBlock>
-            <PasswordBox Password="{Binding Password2}" Margin="10, 0" Width="100" />
+            <TextBox Text="{Binding Password2}" Margin="10, 0" Width="100" />
+            <Button Click="EncryptOnClick">Шифровать</Button>
+            <Button Margin="10, 0" Click="CheckOnClick">Проверить</Button>
+
+
         </StackPanel>
         <TextBlock Grid.Row="2" VerticalAlignment="Top" Text="{Binding ErrorMessage}" Foreground="Red" FontSize="20"
                    HorizontalAlignment="Center" />
-
     </Grid>
 </Window>

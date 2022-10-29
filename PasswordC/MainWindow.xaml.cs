@@ -20,9 +20,22 @@ namespace PasswordC;
 /// </summary>
 public partial class MainWindow : Window
 {
+    public PasswordViewModel passwordViewModel = new();
+
     public MainWindow()
     {
         InitializeComponent();
-        DataContext = new PasswordViewModel();
+        DataContext = passwordViewModel;
+    }
+
+
+    private void CheckOnClick(object sender, RoutedEventArgs e)
+    {
+        passwordViewModel.Decode();
+    }
+
+    private void EncryptOnClick(object sender, RoutedEventArgs e)
+    {
+        passwordViewModel.Encrypt();
     }
 }

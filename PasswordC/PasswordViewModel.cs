@@ -1,6 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Runtime.CompilerServices;
+using System.Windows;
 using PasswordLibrary;
 
 namespace PasswordC;
@@ -17,7 +20,8 @@ public class PasswordViewModel : INotifyPropertyChanged
 
     public Dictionary<PasswordType, string> typeToMessage = new()
     {
-        {PasswordType.Bad, "Ваш пароль ужасен"}, {PasswordType.Weak, "Ваш пароль плохой"},
+        {PasswordType.Bad, "Ваш пароль ужасен"},
+        {PasswordType.Weak, "Ваш пароль плохой"},
         {PasswordType.Medium, "Ваш пароль средней сложности"},
         {PasswordType.Good, "Ваш пароль хороший"},
         {PasswordType.Strong, "Ваш пароль сильный"}
@@ -59,25 +63,53 @@ public class PasswordViewModel : INotifyPropertyChanged
                 if (!StrongPassword.CheckPassword(_password2))
                 {
                     ErrorMessage = "Пароли не совпадают";
-                    NotifyPropertyChanged("ErrorMessage");
+                    PassStrongMessage = "";
                 }
                 else
                 {
                     ErrorMessage = "";
                     PassStrongMessage = typeToMessage[StrongPassword.CheckPasswordOnStrong()];
-                    NotifyPropertyChanged("PassStrongMessage");
                 }
             }
             else
             {
                 PassStrongMessage = "";
                 ErrorMessage = "";
-                NotifyPropertyChanged("PassStrongMessage");
-                NotifyPropertyChanged("ErrorMessage");
             }
+
+            NotifyPropertyChanged("PassStrongMessage");
+            NotifyPropertyChanged("ErrorMessage");
         }
     }
 
     public string ErrorMessage { get; set; } = "";
     public string PassStrongMessage { get; set; } = "";
+
+    public void Encrypt()
+    {
+        if (_password1 == _password2 && _password1.Trim() != "")
+            using (StreamWriter writer = new("pass.txt"))
+            {
+                var offset = new Random().Next(0, 100);
+                // var offset = 3;
+                writer.WriteLine(offset);
+                writer.Write(new EncryptPassword(_password1).Encrypt((uint) offset));
+            }
+    }
+
+    public void Decode()
+    {
+        if (_password1 == _password2 && _password1.Trim() != "")
+            using (StreamReader reader = new("pass.txt"))
+            {
+                var offset = uint.Parse(reader.ReadLine()!);
+                var savedPass = new EncryptPassword(reader.ReadLine()!).Decode(offset);
+                ErrorMessage = "";
+                if (savedPass != _password1)
+                    ErrorMessage = "Пароль не совпадает с сохранённым";
+                else
+                    MessageBox.Show("Поздравляю, вы угадали пароль:)");
+                NotifyPropertyChanged("ErrorMessage");
+            }
+    }
 }
