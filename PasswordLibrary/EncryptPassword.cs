@@ -33,6 +33,13 @@ public class EncryptPassword : Password
 
         return newPass;
     }
+    
+    public string Encrypt(int offset)
+    {
+        if (offset < 0)
+            return Decode((uint) Math.Abs(offset));
+        return Encrypt((uint) offset);
+    }
 
     public string Decode(uint offset)
     {
@@ -57,5 +64,12 @@ public class EncryptPassword : Password
             }
 
         return newPass;
+    }
+
+    public string Decode(int offset)
+    {
+        if (offset < 0)
+            return Encrypt((uint) Math.Abs(offset));
+        return Decode((uint) offset);
     }
 }

@@ -90,10 +90,10 @@ public class PasswordViewModel : INotifyPropertyChanged
         if (_password1 == _password2 && _password1.Trim() != "")
             using (StreamWriter writer = new("pass.txt"))
             {
-                var offset = new Random().Next(0, 100);
+                var offset = new Random().Next(-100, 100);
                 // var offset = 3;
                 writer.WriteLine(offset);
-                writer.Write(new EncryptPassword(_password1).Encrypt((uint) offset));
+                writer.Write(new EncryptPassword(_password1).Encrypt(offset));
             }
     }
 
@@ -102,7 +102,7 @@ public class PasswordViewModel : INotifyPropertyChanged
         if (_password1 == _password2 && _password1.Trim() != "")
             using (StreamReader reader = new("pass.txt"))
             {
-                var offset = uint.Parse(reader.ReadLine()!);
+                var offset = int.Parse(reader.ReadLine()!);
                 var savedPass = new EncryptPassword(reader.ReadLine()!).Decode(offset);
                 ErrorMessage = "";
                 if (savedPass != _password1)
