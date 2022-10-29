@@ -33,7 +33,7 @@ public class EncryptPassword : Password
 
         return newPass;
     }
-    
+
     public string Encrypt(int offset)
     {
         if (offset < 0)

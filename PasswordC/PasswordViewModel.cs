@@ -41,14 +41,26 @@ public class PasswordViewModel : INotifyPropertyChanged
             {
                 _password1 = value;
                 StrongPassword = new StrongPassword(_password1);
+                if (!StrongPassword.CheckPassword(_password2))
+                {
+                    ErrorMessage = "Пароли не совпадают";
+                    PassStrongMessage = "";
+                }
+                else
+                {
+                    ErrorMessage = "";
+                    PassStrongMessage = typeToMessage[StrongPassword.CheckPasswordOnStrong()];
+                }
             }
             else
             {
                 PassStrongMessage = "";
                 ErrorMessage = "";
-                NotifyPropertyChanged("PassStrongMessage");
-                NotifyPropertyChanged("ErrorMessage");
+                _password1 = "";
             }
+
+            NotifyPropertyChanged("PassStrongMessage");
+            NotifyPropertyChanged("ErrorMessage");
         }
     }
 
@@ -75,6 +87,7 @@ public class PasswordViewModel : INotifyPropertyChanged
             {
                 PassStrongMessage = "";
                 ErrorMessage = "";
+                _password2 = "";
             }
 
             NotifyPropertyChanged("PassStrongMessage");

@@ -4,7 +4,7 @@ namespace PasswordLibrary;
 
 public class StrongPassword : Password
 {
-    public Dictionary<PasswordType, string> PatternToType = new()
+    public Dictionary<PasswordType, string> TypeToPattern = new()
     {
         {PasswordType.Bad, @"[\S]{0,8}"},
         {PasswordType.Weak, @"[\S]{8,}"},
@@ -16,8 +16,8 @@ public class StrongPassword : Password
     public PasswordType CheckPasswordOnStrong()
     {
         var passwordType = PasswordType.Weak;
-        foreach (var keyValue in PatternToType)
-            if (Regex.IsMatch(_password, PatternToType[keyValue.Key]))
+        foreach (var keyValue in TypeToPattern)
+            if (Regex.IsMatch(_password, TypeToPattern[keyValue.Key]))
                 passwordType = keyValue.Key;
         return passwordType;
     }
