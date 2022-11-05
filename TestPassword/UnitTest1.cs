@@ -46,8 +46,7 @@ public class PasswordsTests
         Assert.AreEqual(new EncryptPassword("rn").Decode(29), "ok");
         Assert.AreEqual(new EncryptPassword("A").Decode(0), "A");
         Assert.AreEqual(new EncryptPassword("A").Decode(0), "A");
-
-
-        // Assert.AreEqual(new EncryptPassword("a").Decode(1), "z");
+        Assert.AreEqual(new EncryptPassword("BCDE").Encrypt(-54), "ZABC");
+        // Assert.AreEqual(new EncryptPassword("a").Decode(1), "z"); BCDE
     }
 }
